@@ -69,11 +69,6 @@ class Polyhedron(object):
                                   [0, np.cos(theta), -np.sin(theta), 0],
                                   [0, np.sin(theta), np.cos(theta), 0],
                                   [0, 0, 0, 1]])
-    def get_z_rotate(self, theta):
-        return np.array([[np.cos(theta), -np.sin(theta), 0, 0],
-                                  [np.sin(theta), np.cos(theta), 0, 0],
-                                  [0, 0, 1, 0],
-                                  [0, 0, 0, 1]])
 
     def get_y_rotate(self, theta):
         return np.array([[np.cos(theta), 0, np.sin(theta), 0],
@@ -81,9 +76,15 @@ class Polyhedron(object):
                                   [-np.sin(theta), 0, np.cos(theta), 0],
                                   [0, 0, 0, 1]])
 
+    def get_z_rotate(self, theta):
+        return np.array([[np.cos(theta), -np.sin(theta), 0, 0],
+                                  [np.sin(theta), np.cos(theta), 0, 0],
+                                  [0, 0, 1, 0],
+                                  [0, 0, 0, 1]])
+
     def rotate(self, theta, axis):
         if axis not in ['x', 'y', 'z']:
-            raise AttributeError("Go Fuck Yourself!")
+            raise AttributeError("Apenas os eixos Z, X e Y são aceitos")
         theta = np.radians(theta)
         self.__calculate(getattr(self, f'get_{axis}_rotate')(theta))
 
