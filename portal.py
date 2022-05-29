@@ -22,10 +22,10 @@ class Window(tkinter.Tk):
         content.grid(column=0, row=0, sticky=(tkinter.N, tkinter.W, tkinter.E, tkinter.S))
         frm_figure = ttk.Frame(content, borderwidth=5)
         frm_figure.grid(column=0, row=0, rowspan=10)
-        fig = figure.Figure()
-        self.fig_canvas = backend_tkagg.FigureCanvasTkAgg(fig, frm_figure)
+        self.fig = figure.Figure()
+        self.fig_canvas = backend_tkagg.FigureCanvasTkAgg(self.fig, frm_figure)
         self.fig_canvas.get_tk_widget().grid(column=0, row=0)
-        self.polyhedron = calculator.TenPointPolyhedron.create(fig)
+        self.polyhedron = calculator.TenPointPolyhedron.create(self.fig)
 
         ttk.Label(content, text="Transladar em x:").grid(column=1, row=0)
         self.translate_x_value = ttk.Entry(content)
@@ -62,7 +62,7 @@ class Window(tkinter.Tk):
         self.rotate_angle.grid(column=3, row=5, sticky=(tkinter.N))
         ttk.Button(content, text="Rotacionar", command=self.rotate).grid(column=1, row=5, columnspan=3, sticky=(tkinter.S, tkinter.W, tkinter.E))
 
-        #ttk.Button(content, text="Reset", command=self.reset).grid(column=1, row=6, sticky=(tkinter.S, tkinter.W, tkinter.E))
+        ttk.Button(content, text="Reset", command=self.reset).grid(column=1, row=6, sticky=(tkinter.S, tkinter.W, tkinter.E))
         ttk.Button(content, text="Sair", command=self.destroy).grid(column=3, row=6, sticky=(tkinter.S, tkinter.W, tkinter.E))
 
 
@@ -106,7 +106,9 @@ class Window(tkinter.Tk):
         self.polyhedron.rotate(int(self.rotate_angle.get()), self.rotate_axis.get())
         self.fig_canvas.draw()
 
-    #def reset(self):
+    def reset(self):
+        self.polyhedron = calculator.TenPointPolyhedron.create(self.fig)
+        self.fig_canvas.draw()
 
 
 if __name__ == '__main__':
